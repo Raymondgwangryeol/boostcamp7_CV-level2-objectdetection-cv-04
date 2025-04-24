@@ -1,3 +1,5 @@
+# [My Experiment] EfficientNet을 모델로 선정하여, 모델이 적합한지 train및 inference 시도
+
 import argparse
 from mmengine.config import Config, ConfigDict
 from mmengine.runner import Runner
