@@ -76,6 +76,10 @@ project_root/
 └── README.md
 ```
 
+프로젝트는 mmdetection3를 사용했으며, 구조는 다음과 같습니다.
+```
+
+```
 ### Hyperparameter Tuning Experiment
 - Write in [Google sheet](https://docs.google.com/spreadsheets/d/1tuTotQ_ALJQyJPzXt2NMeeyWfkm5csweRrYfWxnff8A/edit?usp=sharing)
 
