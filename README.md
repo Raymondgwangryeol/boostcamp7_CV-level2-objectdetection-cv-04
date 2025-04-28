@@ -76,12 +76,45 @@ project_root/
 └── README.md
 ```
 
-프로젝트는 mmdetection3를 사용했으며, 구조는 다음과 같습니다.
-```
+## Model Architecture
 
-```
-### Hyperparameter Tuning Experiment
-- Write in [Google sheet](https://docs.google.com/spreadsheets/d/1tuTotQ_ALJQyJPzXt2NMeeyWfkm5csweRrYfWxnff8A/edit?usp=sharing)
+본 프로젝트는 **MMDetection v3**를 기반으로 진행되었습니다.
+
+### 모델 구성
+
+#### 1. EfficientNet-d3 + RetinaNet
+- **Backbone**: EfficientNet-d3
+- **Head**: RetinaNet (`RetinaSepBNHead`)
+- **Input Image Size**: 896 × 896
+- **Augmentation (Train)**:
+  - RandomResize
+  - RandomCrop
+  - RandomFlip
+
+#### 2. YOLOv10_n
+- **Backbone**: 경량화 버전 (deepen_factor=0.33, widen_factor=0.25, use_depthwise=True)
+- **Neck**:
+  - in_channels: [64, 128, 256]
+  - out_channels: 64
+  - num_csp_blocks: 1
+  - use_depthwise: True
+- **Head (bbox_head)**:
+  - in_channels: 64
+  - feat_channels: 64
+  - use_depthwise: True
+
+## Training Script
+본 프로젝트에서는 mmdetection3의 기본 train.py를 기반으로, 실험에 맞게 수정한 커스텀 스크립트를 사용했습니다.
+
+### 주요 변경사항
+- Config 파일 수정: 모델 구조, 데이터 경로, 클래스 수, optimizer 설정 등을 실험에 맞게 동적으로 수정할 수 있도록 했습니다.
+- Argument 추가: --epochs, --batch-size, --lr, --num-classes, --data-root, --work-dir 등 주요 학습 설정을 인자로 받아 설정할 수 있도록 변경했습니다.
+- Flexible한 실험: 다양한 모델 및 데이터셋 환경에서 손쉽게 실험을 반복할 수 있도록 하였습니다.
+- Runner 사용: 수정된 config를 기반으로 Runner를 생성하고 학습을 진행합니다.
+
+### 스크립트 특징
+- EfficientNet 기반 모델과 YOLOv10 모델 실험 모두 이 스크립트를 통해 학습을 수행했습니다.
+- 데이터셋 경로와 클래스 수를 쉽게 변경할 수 있어 다양한 환경에서 재사용이 가능합니다.
 
 
    
